@@ -1,0 +1,2 @@
+Recomiendo Subir los modelos en su carperta si es posible.
+ ej carpeta moduloVenta, muduloProducto, moduloUsuario, moduloLogin
