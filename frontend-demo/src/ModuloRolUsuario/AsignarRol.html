@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--Bootstrap CSS-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+      crossorigin="anonymous"
+    /> 
+    <style>
+      #actualizar, #eliminar{
+        cursor: pointer;
+      }
+    </style>
+
+    <title>Document</title>
+  </head>
+  <body>
+    <!--Navar-->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">WOODIST</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link active dropdown-toggle"
+                href="#"
+                id="navbarDropdownMenuLink"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                User
+              </a>
+              <ul
+                class="dropdown-menu"
+                aria-labelledby="navbarDropdownMenuLink"
+              >
+                <li><a class="dropdown-item" href="/ModuloRol.html">Ingreso usuario</a></li>
+                <li><a class="dropdown-item" href="/AsignarRol.html">Asignar Rol</a></li> 
+                <li><a class="dropdown-item" href="/RegistrarRol.html">Registrar Rol</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdownMenuLink"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                >Producto</a
+              >
+              <ul
+                class="dropdown-menu"
+                aria-labelledby="navbarDropdownMenuLink"
+              >
+                <li><a class="dropdown-item" href="#">Consultar</a></li>
+                <li><a class="dropdown-item" href="#">Registrar</a></li>
+              </ul>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdownMenuLink"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                >Ventas</a
+              >
+              <ul
+                class="dropdown-menu"
+                aria-labelledby="navbarDropdownMenuLink"
+              >
+                <li><a class="dropdown-item" href="#">Consultar</a></li>
+                <li><a class="dropdown-item" href="#">Registrar</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!--Inicio Formulario-->
+    <div class="container">
+      <div class="row justify-content-center mt-3">
+        <div class="card shadow mb-5 big-body rounded" style="width: 40rem">
+          <form class="row g-3 needs-validation" novalidate>
+            <p>Registro Rol</p>
+            <div class="col-md-3 mb-3">
+              <label for="idusuario" class="form-label">ID usuario</label>
+              <input
+                type="text"
+                class="form-control"
+                id="idusuario"
+                name="idusuario"
+                value=""
+                required
+              />
+              <div class="valid-feedback">Looks good!</div>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="rolusuario" class="form-label">Rol usuario</label>
+              <select class="form-select" id="rolusuario" name="rolusuario" required>
+                <option>Administrador</option>
+                <option>Vendedor</option>
+              </select>
+              <div class="invalid-feedback">Please select a valid state.</div>
+            </div>
+            <div class="col-md-3 mb-3">
+              <label for="estadorol" class="form-label">Estado rol</label>
+              <select class="form-select" id="estadorol" name="estadorol" required>
+                <option>Autorizado</option>
+                <option>Inativo</option>
+              </select>
+              <div class="invalid-feedback">Please select a valid state.</div>
+            </div>
+              <div class="col-12">
+              <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+              <label class="form-check-label" for="invalidCheck">
+                Termino y Condiciones
+              </label>
+              <div class="invalid-feedback">
+                You must agree before submitting.
+              </div>
+              </div>
+            
+            <div class="col-md-3 mb-3 mt-5 align-items-end">
+              <div class="d-grid gap-2">
+                <button class="btn btn-primary" type="submit">Enviar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div> 
+    <!--Inicio table--> 
+    <div class="container"> 
+      <div class="row justify-content-center mt-3">
+        <div class="card shadow mb-5 big-body rounded" style="width: 40rem">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Rol usuario</th>
+                <th scope="col" colspan="3">Estado</th>
+
+               
+              </tr>
+            </thead>
+            <tbody id="registro">
+              <!-- <tr>
+                <th scope="row">1</th>
+                <td>Administrador</td>
+                <td></td>
+                <td id="actualizar" onclick="actualizar()">&#128394</td> 
+                <td id="eliminar" onclick="eliminar()">&#128465</td>
+              </tr>
+              <tr>
+                <th scope="row">2</th>
+                <td>Vendedor</td>
+                <td></td>
+                <td id="actualizar" onclick="actualizar()">&#128394</td>
+                <td id="eliminar" onclick="eliminar()">&#128465</td>
+              </tr>
+              <tr>
+                <th scope="row">3</th> 
+                <td colspan="2">Vendedor</td> 
+                
+                <td id="actualizar" onclick="actualizar()">&#128394</td>
+                <td id="eliminar" onclick="eliminar()">&#128465</td>
+              </tr> -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.js"
+      integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+      crossorigin="anonymous"
+    ></script> 
+    <script src="/appRol.js"></script>
+  </body>
+</html>
