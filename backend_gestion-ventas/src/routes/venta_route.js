@@ -25,22 +25,22 @@ router.get('/listaventas',(req,res) => {
 });
 
 //obtener solo una venta
-router.get('/ventas/:id',(req,res) => {
+router.get('/ventas/editar/:id',(req,res) => {
     //res.send("Crear venta");
     const{id} = req.params;
-    ventaSchema
-    .findById(id)
+    ventaSchema.findById(id)
     .then((data) => res.json(data))
     .catch((error)=>res.json({message:error}));
+    //console.log(ventaSchema)
 });
 
 //actualizar una venta
 router.put('/ventas/:id',(req,res) => {
     //res.send("Crear venta");
     const{id} = req.params;
-    const{fecha, idVenta, nombreCliente} = req.body;
+    const{fecha, idVenta, nombreCliente, tipoIdentificacion, numeroIdentificacion, nombreVendedor} = req.body;
     ventaSchema
-    .updateOne({_id:id},{ $set:{fecha, idVenta, nombreCliente}})
+    .updateOne({_id:id},{ $set:{fecha, idVenta, nombreCliente, tipoIdentificacion, numeroIdentificacion, nombreVendedor}})
     .then((data) => res.json(data))
     .catch((error)=>res.json({message:error}));
 });

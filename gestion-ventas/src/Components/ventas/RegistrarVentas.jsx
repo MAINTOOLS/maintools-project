@@ -14,48 +14,6 @@ const RegistrarVenta = () =>{
     nombreVendedor:''
   })
 
-  const ventas = [
-    {
-      Fecha:"dd/mm/aaaa",
-      idVenta:"111",
-      nombreCliente:"cliente1",
-      identificacionCliente:"12345",
-      vendedor:"usuario1"
-    },
-    {
-      Fecha:"dd/mm/aaaa",
-      idVenta:"222",
-      nombreCliente:"cliente1",
-      identificacionCliente:"12345",
-      vendedor:"usuario2"
-    },
-    {
-      Fecha:"dd/mm/aaaa",
-      idVenta:"333",
-      nombreCliente:"cliente1",
-      identificacionCliente:"12345",
-      vendedor:"usuario3"
-    },
-    {
-      Fecha:"dd/mm/aaaa",
-      idVenta:"444",
-      nombreCliente:"cliente1",
-      identificacionCliente:"12345",
-      vendedor:"usuario4"
-    },
-    {
-      Fecha:"dd/mm/aaaa",
-      idVenta:"555",
-      nombreCliente:"cliente1",
-      identificacionCliente:"12345",
-      vendedor:"usuario5"
-    }
-  ];
-  
-  //useEffect(()=>{
-    //obtener lista de vehiculos desde el backend
-   //setVentas(ventas);
-  //},)
   function handleChange(event){
     const{name, value} = event.target;
 
@@ -80,13 +38,6 @@ const RegistrarVenta = () =>{
     axios.post('http://localhost:4000/api/ventas',nuevaVenta)
     alert('Venta registrada correctamente')
   }
-
-
-  //const listaVentas = {
-    //fecha: venta.fechaVenta,
-    //idVenta: venta.idVenta,
-    //nombreCliente: venta.nombreCliente
-  //}
 
 
     return(
