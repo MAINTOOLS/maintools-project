@@ -3,20 +3,18 @@ import Cabecera from "../cabecera/Cabecera"
 import { Table } from "react-bootstrap"
 import React, {useEffect, useState} from "react"
 import axios from "axios";
-
+import Popup from "../../Popup";
 
 var idActual;
 //funcion boton
-  function id(par){
-    idActual = par
-    console.log(idActual)
-    //window.open("http://localhost:3000/detalles")
-}
+
 
 
 
 function RegistroVenta(){
 
+
+  const[openPopup, setOpenPopup] = useState(false);
   const [actualizarVenta,setActualizarVenta] = useState({
     fechaVenta: '',
     idVenta:'',
@@ -26,6 +24,12 @@ function RegistroVenta(){
     nombreVendedor:''
   })
   
+  function id(par){
+    idActual = par
+    console.log(idActual)
+    setOpenPopup(true)
+    //window.open("http://localhost:3000/detalles")
+}
   function handleChange(event){
     const{name, value} = event.target;
   
@@ -36,7 +40,7 @@ function RegistroVenta(){
       }
     })
   }
-
+ 
   function updateClick(event){
     event.preventDefault();
     const ventaActualizada = {
@@ -69,9 +73,11 @@ function RegistroVenta(){
       }).then(jsonRes => setNotes(jsonRes))
     })
     return <div>
+
     <Cabecera />
+
+
       <h1>Lista de ventas</h1>
-      
       <Table striped bordered hover className="container">
         <thead>
           <tr>
@@ -94,6 +100,7 @@ function RegistroVenta(){
         <td>{note.numeroIdentificacion}</td>
         <td>{note.nombreVendedor}</td>
         <td><button onClick = {()=>id(note._id)} >Editar</button></td>
+        
       </tr>
       
         )}
@@ -113,6 +120,26 @@ function RegistroVenta(){
         <div className = "mt-3">
         <button type="button" onClick = {updateClick}>Registrar venta</button>
         </div>
+        <div className = "mt-3">
+        <button onClick = {()=>setOpenPopup(true)} >Edit</button>
+        </div>
+        <Popup openPopup = {openPopup}
+        setOpenPopup = {setOpenPopup}>
+      <h1>Editar venta</h1>
+      <div className = "container">
+          <form method = "put"> 
+          <input type="text" placeholder="Fecha de la venta" name="fechaVenta" value = {actualizarVenta.fechaVenta} onChange = {handleChange}/>&nbsp;   
+          <input type="text" placeholder="ID venta" name = "idVenta" value = {actualizarVenta.idVenta} onChange = {handleChange}/>&nbsp;
+          <input type="text" placeholder="Nombre del cliente" name = "nombreCliente" value = {actualizarVenta.nombreCliente} onChange = {handleChange}/>&nbsp;
+          <input type="text" placeholder="Tipo de identificación" name = "tipoIdentificacion" value = {actualizarVenta.tipoIdentificacion} onChange = {handleChange}/>&nbsp;
+          <input type="text" placeholder="Número de identificación" name = "numeroIdentificacion" value = {actualizarVenta.numeroIdentificacion} onChange = {handleChange}/>&nbsp;
+          <input type="text" placeholder="Nombre del vendedor" name = "nombreVendedor" value = {actualizarVenta.nombreVendedor} onChange = {handleChange}/>&nbsp;         
+          </form>
+        </div>
+        <div className = "mt-3">
+        <button type="button" onClick = {updateClick}>Registrar venta</button>
+        </div>
+        </Popup>
       </div>
   }
   
