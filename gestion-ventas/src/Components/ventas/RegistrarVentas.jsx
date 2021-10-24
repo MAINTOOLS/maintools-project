@@ -14,17 +14,38 @@ const RegistrarVenta = () =>{
     nombreVendedor:''
   })
 
+  const [isDisabled, setIsDisabled] = useState(true)
+  function camposRequeridos(cambio){
+    if(cambio=="") { 
+      setIsDisabled(true)
+  } else { 
+    setIsDisabled(false)
+     
+  }
+    
+  }
   function handleChange(event){
     const{name, value} = event.target;
-
+    setInput(prevInput => {
+      return{
+        ...prevInput,
+        [name]:value     
+      } 
+    })
+  }
+  
+  function handleChangeRegistro(event){
+    const{name, value} = event.target;
     setInput(prevInput => {
       return{
         ...prevInput,
         [name]:value
+        
       }
+      
     })
+    camposRequeridos(value)
   }
-  
   function handleClick(event){
     event.preventDefault();
     const nuevaVenta = {
@@ -42,15 +63,17 @@ const RegistrarVenta = () =>{
   function setDocumento(){
     tipoDocu = document.getElementById('tipoDocumento').value;
     input.tipoIdentificacion = tipoDocu;
+    console.log(tipoDocu)
   }
-
+  
     return(
+      
         <body> 
             <Cabecera />
             <div className = "mb-5">
               <h2>Registro de ventas</h2>
             </div> 
-              
+
         <div className = "container">
         <div >
           <Form method = "post" >
@@ -86,14 +109,15 @@ const RegistrarVenta = () =>{
           </Form.Group>
           <Form.Group as={Col} xs="auto">
           <Form.Label>Número de identificación</Form.Label>    
-          <Form.Control type="text" placeholder="Número de identificación" name = "numeroIdentificacion" value = {input.numeroIdentificacion} onChange = {handleChange}/>&nbsp;
+          <Form.Control type="text" placeholder="Número de identificación" name = "numeroIdentificacion" value = {input.numeroIdentificacion} onChange = {handleChangeRegistro}/>&nbsp;
           </Form.Group>
           </Row>
 
           </Form>
         </div>
         <div className = "mt-3">
-        <button type="button" onClick = {handleClick}>Registrar venta</button>
+        <button type="button" id="venta" onClick = {handleClick} disabled={isDisabled}>Registrar venta</button>
+        
         </div>
   </div>
 
