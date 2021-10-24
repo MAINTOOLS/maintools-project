@@ -3,8 +3,11 @@ import { Table,DropdownButton,Dropdown,Form, Row,Col} from "react-bootstrap"
 import React, {useEffect, useState,form} from "react"
 import axios from "axios"
 import { Component } from "react"
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 //import { response } from "express"
 const RegistrarVenta = () =>{
+  const [startDate, setStartDate] = useState(new Date());
   const [input,setInput] = useState({
     fechaVenta: '',
     idVenta:'',
@@ -13,7 +16,15 @@ const RegistrarVenta = () =>{
     numeroIdentificacion:'',
     nombreVendedor:''
   })
-
+function fecha(){
+  var fechaVentaActual
+  var dia = String(startDate.getDate())
+  var mes =String(startDate.getMonth()+1)
+  var año =String(startDate.getFullYear())
+  fechaVentaActual = dia + "/" + mes+"/" + año
+  console.log(fechaVentaActual)
+  
+}
   const [isDisabled, setIsDisabled] = useState(true)
   function camposRequeridos(cambio){
     if(cambio=="") { 
@@ -73,7 +84,13 @@ const RegistrarVenta = () =>{
             <div className = "mb-5">
               <h2>Registro de ventas</h2>
             </div> 
-
+        <div className = "mb-5">
+        <DatePicker
+      dateFormat="dd/MM/yyyy"
+      selected={startDate}
+      onChange={(date) => setStartDate(date)}
+    />
+        </div>
         <div className = "container">
         <div >
           <Form method = "post" >
@@ -117,6 +134,7 @@ const RegistrarVenta = () =>{
         </div>
         <div className = "mt-3">
         <button type="button" id="venta" onClick = {handleClick} disabled={isDisabled}>Registrar venta</button>
+        <button type="button" onClick = {fecha} >fecha</button>
         
         </div>
   </div>
