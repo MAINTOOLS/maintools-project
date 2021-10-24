@@ -49,6 +49,13 @@ function RegistroVenta(){
     axios.put(`http://localhost:4000/api/ventas/${idActual}`,ventaActualizada)
     alert('Venta actualizada correctamente')
   }
+
+  function eliminarClick(idEliminar){
+    
+    console.log(idEliminar)
+    axios.delete(`http://localhost:4000/api/ventas/${idEliminar}`)
+    alert('Venta eliminada correctamente')
+  }
     const[notes, setNotes] = useState([{
       fecha:'',
       idVenta:'',
@@ -130,7 +137,7 @@ function RegistroVenta(){
         <td>{note.numeroIdentificacion}</td>
         <td>{note.nombreVendedor}</td>
         <td><button onClick = {()=>id(note._id, note.fecha, note.idVenta, note.nombreCliente, note.tipoIdentificacion, note.numeroIdentificacion, note.nombreVendedor)} >Editar</button></td>
-        
+        <td><button onClick = {()=>eliminarClick(note._id)}>Eliminar</button></td>
       </tr>
       
         )}
