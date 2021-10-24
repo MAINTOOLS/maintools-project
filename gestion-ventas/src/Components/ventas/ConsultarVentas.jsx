@@ -15,6 +15,7 @@ function RegistroVenta(){
 
 
   const[openPopup, setOpenPopup] = useState(false);
+  const[busqueda,setBusqueda] = useState('');
   const [actualizarVenta,setActualizarVenta] = useState({
     fechaVenta: '',
     idVenta:'',
@@ -108,13 +109,17 @@ function RegistroVenta(){
 
 
     return <div>
-
-
-
     <Cabecera />
-
-
+    <div className = "container mb-2">
       <h1>Lista de ventas</h1>
+      <Form>
+        <Row className = "justify-content-md-end">
+      <Form.Group as={Col} xs="auto">
+      <Form.Control xs="auto" type="text" placeholder="Buscar..." onChange = {event =>{setBusqueda(event.target.value)}} />
+      </Form.Group>
+      </Row>
+      </Form>
+      </div>
       <Table striped bordered hover className="container">
         <thead>
           <tr>
@@ -124,10 +129,17 @@ function RegistroVenta(){
             <th>Tipo de identificación</th>
             <th>Número de identificación</th>
             <th>Vendedor</th>
+            <th>Opciones</th>
           </tr>
         </thead>
         <tbody>
-      {notes.map(note =>
+      {notes.filter((note)=>{
+        if (busqueda == ""){
+          return note
+        } else if(note.nombreCliente.toString().toLowerCase().includes(busqueda.toString().toLowerCase())){
+          return note.nombreCliente
+        }
+      }).map(note =>
               
       <tr>
         <td>{note.fecha}</td>
@@ -136,8 +148,8 @@ function RegistroVenta(){
         <td>{note.tipoIdentificacion}</td>
         <td>{note.numeroIdentificacion}</td>
         <td>{note.nombreVendedor}</td>
-        <td><button onClick = {()=>id(note._id, note.fecha, note.idVenta, note.nombreCliente, note.tipoIdentificacion, note.numeroIdentificacion, note.nombreVendedor)} >Editar</button></td>
-        <td><button onClick = {()=>eliminarClick(note._id)}>Eliminar</button></td>
+        <td><button onClick = {()=>id(note._id, note.fecha, note.idVenta, note.nombreCliente, note.tipoIdentificacion, note.numeroIdentificacion, note.nombreVendedor)} >Editar</button>&nbsp;
+        <button  onClick = {()=>eliminarClick(note._id)}>Eliminar</button></td>
       </tr>
       
         )}
@@ -149,6 +161,7 @@ function RegistroVenta(){
 <div className = "container">
         <div >
           <Form method = "post" >
+            <h2>Editar venta</h2>
             <Row className="justify-content-center mb-3">
             <Form.Group as={Col} xs="auto"> 
               <Form.Label className="mb-2">Fecha</Form.Label>
