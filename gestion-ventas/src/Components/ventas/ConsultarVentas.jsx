@@ -24,12 +24,7 @@ function RegistroVenta(){
     nombreVendedor:''
   })
   
-  function id(par){
-    idActual = par
-    console.log(idActual)
-    setOpenPopup(true)
-    //window.open("http://localhost:3000/detalles")
-}
+
   function handleChange(event){
     const{name, value} = event.target;
   
@@ -72,7 +67,42 @@ function RegistroVenta(){
       }
       }).then(jsonRes => setNotes(jsonRes))
     })
+
+    function selectFunction(tipdoc) {
+      if(tipdoc == "Tarjeta de Identidad"){
+        document.getElementById("tipoDocumento").value = "Tarjeta de Identidad";
+      }
+      else if(tipdoc == "Cédula de Ciudadanía"){
+        document.getElementById("tipoDocumento").value = "Cédula de Ciudadanía";
+      }
+      else if(tipdoc == "Cédula de Extranjería"){
+        document.getElementById("tipoDocumento").value = "Cédula de Extranjería";
+      }
+      
+  };
+    function id(idmongo, fechaMongo, idVentaMongo, clienteMongo, tipoIdentMongo, numeroIdentMongo, vendedorMongo){
+      idActual = idmongo
+      console.log(idActual)
+      setOpenPopup(true)
+
+      actualizarVenta.fechaVenta = fechaMongo;
+      actualizarVenta.idVenta = idVentaMongo;
+      actualizarVenta.nombreCliente = clienteMongo;
+      actualizarVenta.tipoIdentificacion = tipoIdentMongo;
+      actualizarVenta.numeroIdentificacion = numeroIdentMongo;
+      actualizarVenta.nombreVendedor = vendedorMongo;
+      setTimeout( function() { selectFunction(tipoIdentMongo); }, 1000);
+  }
+  var tipoDocu;
+  function setDocumento(){
+    tipoDocu = document.getElementById('tipoDocumento').value;
+    actualizarVenta.tipoIdentificacion = tipoDocu;
+  }
+
+
     return <div>
+
+
 
     <Cabecera />
 
@@ -99,48 +129,40 @@ function RegistroVenta(){
         <td>{note.tipoIdentificacion}</td>
         <td>{note.numeroIdentificacion}</td>
         <td>{note.nombreVendedor}</td>
-        <td><button onClick = {()=>id(note._id)} >Editar</button></td>
+        <td><button onClick = {()=>id(note._id, note.fecha, note.idVenta, note.nombreCliente, note.tipoIdentificacion, note.numeroIdentificacion, note.nombreVendedor)} >Editar</button></td>
         
       </tr>
       
         )}
       </tbody>
       </Table>
-      <h1>Editar venta</h1>
-      <div className = "container">
-          <form method = "put"> 
-          <input type="text" placeholder="Fecha de la venta" name="fechaVenta" value = {actualizarVenta.fechaVenta} onChange = {handleChange}/>&nbsp;   
-          <input type="text" placeholder="ID venta" name = "idVenta" value = {actualizarVenta.idVenta} onChange = {handleChange}/>&nbsp;
-          <input type="text" placeholder="Nombre del cliente" name = "nombreCliente" value = {actualizarVenta.nombreCliente} onChange = {handleChange}/>&nbsp;
-          <input type="text" placeholder="Tipo de identificación" name = "tipoIdentificacion" value = {actualizarVenta.tipoIdentificacion} onChange = {handleChange}/>&nbsp;
-          <input type="text" placeholder="Número de identificación" name = "numeroIdentificacion" value = {actualizarVenta.numeroIdentificacion} onChange = {handleChange}/>&nbsp;
-          <input type="text" placeholder="Nombre del vendedor" name = "nombreVendedor" value = {actualizarVenta.nombreVendedor} onChange = {handleChange}/>&nbsp;         
-          </form>
-        </div>
-        <div className = "mt-3">
-        <button type="button" onClick = {updateClick}>Registrar venta</button>
-        </div>
-        <div className = "mt-3">
-        <button onClick = {()=>setOpenPopup(true)} >Edit</button>
-        </div>
         <Popup openPopup = {openPopup}
         setOpenPopup = {setOpenPopup}>
       <h1>Editar venta</h1>
       <div className = "container">
           <form method = "put"> 
-          <input type="text" placeholder="Fecha de la venta" name="fechaVenta" value = {actualizarVenta.fechaVenta} onChange = {handleChange}/>&nbsp;   
+          <input type="text" placeholder="Fecha de la venta" name="fechaVenta"  value = {actualizarVenta.fechaVenta} onChange = {handleChange}/>&nbsp;   
           <input type="text" placeholder="ID venta" name = "idVenta" value = {actualizarVenta.idVenta} onChange = {handleChange}/>&nbsp;
           <input type="text" placeholder="Nombre del cliente" name = "nombreCliente" value = {actualizarVenta.nombreCliente} onChange = {handleChange}/>&nbsp;
           <input type="text" placeholder="Tipo de identificación" name = "tipoIdentificacion" value = {actualizarVenta.tipoIdentificacion} onChange = {handleChange}/>&nbsp;
+          <select id="tipoDocumento" onChange = {setDocumento}>
+            <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+            <option value="Cédula de Ciudadanía">Cédula de Ciudadanía</option>
+            <option value="Cédula de Extranjería">Cédula de Extranjería</option>
+          </select>
+          <script> document.getElementById("tipoDocumento").value = "Cédula de Extranjería"</script>
           <input type="text" placeholder="Número de identificación" name = "numeroIdentificacion" value = {actualizarVenta.numeroIdentificacion} onChange = {handleChange}/>&nbsp;
           <input type="text" placeholder="Nombre del vendedor" name = "nombreVendedor" value = {actualizarVenta.nombreVendedor} onChange = {handleChange}/>&nbsp;         
           </form>
         </div>
         <div className = "mt-3">
-        <button type="button" onClick = {updateClick}>Registrar venta</button>
+        <button type="button" onClick = {updateClick}>Aceptar cambios</button>
         </div>
+        
+        
         </Popup>
       </div>
+      
   }
   
   export default RegistroVenta;

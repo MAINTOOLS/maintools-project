@@ -1,5 +1,5 @@
 import Cabecera from "../cabecera/Cabecera"
-import { Table,DropdownButton,Dropdown } from "react-bootstrap"
+import { Table,DropdownButton,Dropdown,Form, Row,Col} from "react-bootstrap"
 import React, {useEffect, useState,form} from "react"
 import axios from "axios"
 import { Component } from "react"
@@ -38,7 +38,11 @@ const RegistrarVenta = () =>{
     axios.post('http://localhost:4000/api/ventas',nuevaVenta)
     alert('Venta registrada correctamente')
   }
-
+  var tipoDocu;
+  function setDocumento(){
+    tipoDocu = document.getElementById('tipoDocumento').value;
+    input.tipoIdentificacion = tipoDocu;
+  }
 
     return(
         <body> 
@@ -47,23 +51,51 @@ const RegistrarVenta = () =>{
               <h2>Registro de ventas</h2>
             </div> 
               
-          
-            
-            
         <div className = "container">
-          <form method = "post"> 
-          <input type="text" placeholder="Fecha de la venta" name="fechaVenta" value = {input.fechaVenta} onChange = {handleChange}/>&nbsp;   
-          <input type="text" placeholder="ID venta" name = "idVenta" value = {input.idVenta} onChange = {handleChange}/>&nbsp;
-          <input type="text" placeholder="Nombre del cliente" name = "nombreCliente" value = {input.nombreCliente} onChange = {handleChange}/>&nbsp;
-          <input type="text" placeholder="Tipo de identificación" name = "tipoIdentificacion" value = {input.tipoIdentificacion} onChange = {handleChange}/>&nbsp;
-          <input type="text" placeholder="Número de identificación" name = "numeroIdentificacion" value = {input.numeroIdentificacion} onChange = {handleChange}/>&nbsp;
-          <input type="text" placeholder="Nombre del vendedor" name = "nombreVendedor" value = {input.nombreVendedor} onChange = {handleChange}/>&nbsp;
-          </form>
+        <div >
+          <Form method = "post" >
+            <Row className="justify-content-center mb-3">
+            <Form.Group as={Col} xs="auto"> 
+              <Form.Label className="mb-2">Fecha</Form.Label>
+              <Form.Control  type="text" placeholder="Fecha de la venta" name="fechaVenta" value = {input.fechaVenta} onChange = {handleChange}/>      
+            </Form.Group>
+
+            <Form.Group as={Col} xs="auto">
+              <Form.Label>ID de la venta</Form.Label>
+              <Form.Control type="text" placeholder="ID venta" name = "idVenta" value = {input.idVenta} onChange = {handleChange}/>
+            </Form.Group>
+
+            <Form.Group as={Col} xs="auto">
+              <Form.Label>Vendedor</Form.Label>         
+              <Form.Control type="text" placeholder="Nombre del vendedor" name = "nombreVendedor" value = {input.nombreVendedor} onChange = {handleChange}/>
+            </Form.Group>
+          </Row>
+          <Row className="justify-content-center">
+          <Form.Group as={Col} xs="auto">
+          <Form.Label>Nombre del Cliente</Form.Label>    
+          <Form.Control type="text" placeholder="Nombre del cliente" name = "nombreCliente" value = {input.nombreCliente} onChange = {handleChange}/>&nbsp;
+          </Form.Group>
+          <Form.Group as={Col} xs="auto">
+          <Form.Label >Tipo de Identificación</Form.Label>    
+          <Form.Select id="tipoDocumento" onChange = {setDocumento}>
+            <option selected disabled>Seleccionar</option>
+            <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+            <option value="Cédula de Ciudadanía">Cédula de Ciudadanía</option>
+            <option value="Cédula de Extranjería">Cédula de Extranjería</option>
+          </Form.Select>
+          </Form.Group>
+          <Form.Group as={Col} xs="auto">
+          <Form.Label>Número de identificación</Form.Label>    
+          <Form.Control type="text" placeholder="Número de identificación" name = "numeroIdentificacion" value = {input.numeroIdentificacion} onChange = {handleChange}/>&nbsp;
+          </Form.Group>
+          </Row>
+
+          </Form>
         </div>
         <div className = "mt-3">
         <button type="button" onClick = {handleClick}>Registrar venta</button>
         </div>
-  
+  </div>
 
     </body>
         
