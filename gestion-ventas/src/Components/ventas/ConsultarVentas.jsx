@@ -1,6 +1,6 @@
-
+import { Table,DropdownButton,Dropdown,Form, Row,Col} from "react-bootstrap"
 import Cabecera from "../cabecera/Cabecera"
-import { Table } from "react-bootstrap"
+//import { Table } from "react-bootstrap"
 import React, {useEffect, useState} from "react"
 import axios from "axios";
 import Popup from "../../Popup";
@@ -98,7 +98,7 @@ function RegistroVenta(){
       actualizarVenta.tipoIdentificacion = tipoIdentMongo;
       actualizarVenta.numeroIdentificacion = numeroIdentMongo;
       actualizarVenta.nombreVendedor = vendedorMongo;
-      setTimeout( function() { selectFunction(tipoIdentMongo); }, 1000);
+      setTimeout( function() { selectFunction(tipoIdentMongo); }, 100);
   }
   var tipoDocu;
   function setDocumento(){
@@ -145,22 +145,47 @@ function RegistroVenta(){
       </Table>
         <Popup openPopup = {openPopup}
         setOpenPopup = {setOpenPopup}>
-      <h1>Editar venta</h1>
-      <div className = "container">
-          <form method = "put"> 
-          <input type="text" placeholder="Fecha de la venta" name="fechaVenta"  value = {actualizarVenta.fechaVenta} onChange = {handleChange}/>&nbsp;   
-          <input type="text" placeholder="ID venta" name = "idVenta" value = {actualizarVenta.idVenta} onChange = {handleChange}/>&nbsp;
-          <input type="text" placeholder="Nombre del cliente" name = "nombreCliente" value = {actualizarVenta.nombreCliente} onChange = {handleChange}/>&nbsp;
-          <input type="text" placeholder="Tipo de identificación" name = "tipoIdentificacion" value = {actualizarVenta.tipoIdentificacion} onChange = {handleChange}/>&nbsp;
-          <select id="tipoDocumento" onChange = {setDocumento}>
+
+<div className = "container">
+        <div >
+          <Form method = "post" >
+            <Row className="justify-content-center mb-3">
+            <Form.Group as={Col} xs="auto"> 
+              <Form.Label className="mb-2">Fecha</Form.Label>
+              <Form.Control  type="text" placeholder="Fecha de la venta" name="fechaVenta" value = {actualizarVenta.fechaVenta} onChange = {handleChange}/>      
+            </Form.Group>
+
+            <Form.Group as={Col} xs="auto">
+              <Form.Label>ID de la venta</Form.Label>
+              <Form.Control type="text" placeholder="ID venta" name = "idVenta" value = {actualizarVenta.idVenta} onChange = {handleChange}/>
+            </Form.Group>
+
+            <Form.Group as={Col} xs="auto">
+              <Form.Label>Vendedor</Form.Label>         
+              <Form.Control type="text" placeholder="Nombre del vendedor" name = "nombreVendedor" value = {actualizarVenta.nombreVendedor} onChange = {handleChange}/>
+            </Form.Group>
+          </Row>
+          <Row className="justify-content-center">
+          <Form.Group as={Col} xs="auto">
+          <Form.Label>Nombre del Cliente</Form.Label>    
+          <Form.Control type="text" placeholder="Nombre del cliente" name = "nombreCliente" value = {actualizarVenta.nombreCliente} onChange = {handleChange}/>&nbsp;
+          </Form.Group>
+          <Form.Group as={Col} xs="auto">
+          <Form.Label >Tipo de Identificación</Form.Label>    
+          <Form.Select id="tipoDocumento" onChange = {setDocumento}>
             <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
             <option value="Cédula de Ciudadanía">Cédula de Ciudadanía</option>
             <option value="Cédula de Extranjería">Cédula de Extranjería</option>
-          </select>
-          <script> document.getElementById("tipoDocumento").value = "Cédula de Extranjería"</script>
-          <input type="text" placeholder="Número de identificación" name = "numeroIdentificacion" value = {actualizarVenta.numeroIdentificacion} onChange = {handleChange}/>&nbsp;
-          <input type="text" placeholder="Nombre del vendedor" name = "nombreVendedor" value = {actualizarVenta.nombreVendedor} onChange = {handleChange}/>&nbsp;         
-          </form>
+          </Form.Select>
+          </Form.Group>
+          <Form.Group as={Col} xs="auto">
+          <Form.Label>Número de identificación</Form.Label>    
+          <Form.Control type="text" placeholder="Número de identificación" name = "numeroIdentificacion" value = {actualizarVenta.numeroIdentificacion} onChange = {handleChange}/>&nbsp;
+          </Form.Group>
+          </Row>
+
+          </Form>
+        </div>
         </div>
         <div className = "mt-3">
         <button type="button" onClick = {updateClick}>Aceptar cambios</button>

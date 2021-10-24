@@ -9,7 +9,7 @@ import Button from '@mui/material/Button';
 export default function Popup(props){
     const {title, children, openPopup, setOpenPopup} = props;
     return(
-        <Dialog open = {openPopup} >
+        <Dialog open = {openPopup}  maxWidth="md" >
             <DialogTitle>
             <div style = {{flexGrow:1}}>Edite la venta
             <Button variant="contained" onClick ={()=>{setOpenPopup(false)}}>X</Button>
