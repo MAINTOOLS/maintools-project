@@ -15,12 +15,12 @@ const registrarSchema =  mongoose.Schema({
     }, 
     estado_usuaio: {
         type :String,
-        require : true 
+        require : false 
 
     },
     estado: {
         type :String,
-        require : true 
+        require : false 
 
     }, 
     rol:{
