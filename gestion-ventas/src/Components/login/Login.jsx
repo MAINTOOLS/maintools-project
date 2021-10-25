@@ -1,8 +1,20 @@
 import React from "react";
 import GoogleLogin from "react-google-login";
+import axios from "axios";
 function Login() {
     function responseGoogle(response){
-        console.log(response);
+        if  (response && response.tokenId) {
+            console.log(response)
+            const infoGoogle = {
+                token: response.tokenId,
+                email: response.profileObj.email,
+                nombres: response.profileObj.givenName,
+                apellidos: response.profileObj.familyName
+            }
+            axios.post('http://localhost:4000/login',infoGoogle).then((respuestaServidor)=>{
+                console.log(infoGoogle);
+            })
+        }
     }
     return(
         <div>
