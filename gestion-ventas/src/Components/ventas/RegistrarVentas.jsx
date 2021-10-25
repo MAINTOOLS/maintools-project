@@ -7,7 +7,12 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 //import { response } from "express"
 const RegistrarVenta = () =>{
+
+  var fechaDeVenta;
   const [startDate, setStartDate] = useState(new Date());
+
+  
+
   const [input,setInput] = useState({
     fechaVenta: '',
     idVenta:'',
@@ -16,13 +21,21 @@ const RegistrarVenta = () =>{
     numeroIdentificacion:'',
     nombreVendedor:''
   })
-function fecha(){
-  var fechaVentaActual
-  var dia = String(startDate.getDate())
-  var mes =String(startDate.getMonth()+1)
-  var año =String(startDate.getFullYear())
-  fechaVentaActual = dia + "/" + mes+"/" + año
-  console.log(fechaVentaActual)
+function fechaDatePicker(){
+  if(startDate != null)
+  {
+    var dia = String(startDate.getDate())
+    var mes =String(startDate.getMonth()+1)
+    var año =String(startDate.getFullYear())
+    fechaDeVenta = String(dia + "/" + mes+"/" + año)
+    input.fechaVenta = fechaDeVenta
+    console.log(fechaDeVenta)
+  }
+}
+
+const cambioFecha = startDate => {
+  
+  setStartDate(startDate);
   
 }
   const [isDisabled, setIsDisabled] = useState(true)
@@ -59,6 +72,7 @@ function fecha(){
   }
   function handleClick(event){
     event.preventDefault();
+    //setTimeout( function() { fech(); }, 100);
     const nuevaVenta = {
       fecha: input.fechaVenta,
       idVenta: input.idVenta,
@@ -67,6 +81,7 @@ function fecha(){
       numeroIdentificacion: input.numeroIdentificacion,
       nombreVendedor: input.nombreVendedor
     }
+    
     axios.post('http://localhost:4000/api/ventas',nuevaVenta)
     alert('Venta registrada correctamente')
   }
@@ -84,20 +99,18 @@ function fecha(){
             <div className = "mb-5">
               <h2>Registro de ventas</h2>
             </div> 
-        <div className = "mb-5">
-        <DatePicker
-      dateFormat="dd/MM/yyyy"
-      selected={startDate}
-      onChange={(date) => setStartDate(date)}
-    />
-        </div>
         <div className = "container">
         <div >
           <Form method = "post" >
             <Row className="justify-content-center mb-3">
             <Form.Group as={Col} xs="auto"> 
               <Form.Label className="mb-2">Fecha</Form.Label>
-              <Form.Control  type="text" placeholder="Fecha de la venta" name="fechaVenta" value = {input.fechaVenta} onChange = {handleChange}/>      
+              <DatePicker
+                dateFormat="dd/MM/yyyy"
+                selected={startDate}
+                onSelect={fechaDatePicker()}
+                onChange={cambioFecha}
+              />      
             </Form.Group>
 
             <Form.Group as={Col} xs="auto">
@@ -134,7 +147,7 @@ function fecha(){
         </div>
         <div className = "mt-3">
         <button type="button" id="venta" onClick = {handleClick} disabled={isDisabled}>Registrar venta</button>
-        <button type="button" onClick = {fecha} >fecha</button>
+        
         
         </div>
   </div>
