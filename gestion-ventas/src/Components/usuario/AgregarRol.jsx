@@ -1,4 +1,4 @@
-import React, { useState , useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Cabecera from "../cabecera/Cabecera";
 import {
   Form,
@@ -12,15 +12,56 @@ import {
 
 const AgregarRol = () => {
   const [validated, setValidated] = useState(false);
-  const[consultarRol, setConsultarRol] = useState([]);
+  const [consultarRol, setConsultarRol] = useState([]);
+  const [actualizar, setactualizar] = useState([]);
+  const [condicion , setCondicion] = useState(false);
   useEffect(() => {
     ConsultarRol();
+   
   }, []);
-  const handleSubmit = (event) => {
+  async function handleSubmit(event) {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+    } else if (condicion == true) {
+      event.stopPropagation();
+      event.preventDefault();
+      let nombreRol = form["nombreRol"].value;
+
+      event.preventDefault();
+      const data = {
+        nombreRol: nombreRol,
+        estado:"activo"
+      
+      };
+      try {
+        let config = {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        };
+        let res = await fetch(
+          `http://localhost:4000/api/user/rol/${actualizar._id}`,
+          config
+        );
+        let json = await res.json();
+        console.log(json);
+        setactualizar([]);
+        setCondicion(false);
+        ConsultarRol();
+
+        form.reset();
+        alert("Registro exitoso");
+      } catch (error) {
+        console.log(error);
+      } 
+      console.log("actualizar");
+
+
     } else {
       let nombreRol = form["nombreRol"].value;
       event.preventDefault();
@@ -29,11 +70,12 @@ const AgregarRol = () => {
         estado: "activo",
         rol: "",
       };
+
       registrar(data);
       form.reset();
     }
     setValidated(true);
-  };
+  }
   async function registrar(data) {
     try {
       let config = {
@@ -61,7 +103,7 @@ const AgregarRol = () => {
         .then(
           (result) => {
             setConsultarRol(result);
-            console.log(result)
+            console.log(result);
           },
           (error) => {
             console.log(error);
@@ -70,12 +112,28 @@ const AgregarRol = () => {
     } catch (error) {
       console.log(error);
     }
-  } 
-  //Asignar rol y cambiar estado de un ususario 
-
-  function actualizar() {
-    alert("Actualizar");
   }
+  //Asignar rol y cambiar estado de un ususario
+  //Actualizar
+  const handleClick = (id) => (e) => {
+    //Actualizar
+    setCondicion(true);
+    try {
+      fetch(`http://localhost:4000/api/user/rol/${id}`)
+        .then((res) => res.json())
+        .then(
+          (result) => {
+            setactualizar(result);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   function eliminar() {
     alert("eliminar");
   }
@@ -107,7 +165,9 @@ const AgregarRol = () => {
                     required
                     type="text"
                     placeholder="nombreRol"
-                    defaultValue=""
+                    defaultValue={
+                      actualizar == "" ? "" : `${actualizar.nombreRol}`
+                    }
                   />
                   <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Col>
@@ -145,7 +205,7 @@ const AgregarRol = () => {
                     <td>{item.estado}</td>
                     <td
                       id="actualizar"
-                      onClick={actualizar}
+                      onClick={handleClick(item._id)}
                       style={{ cursor: "pointer" }}
                     >
                       🖊

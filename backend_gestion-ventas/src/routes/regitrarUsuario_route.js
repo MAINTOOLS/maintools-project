@@ -26,10 +26,10 @@ router.get("/user/:id", (req, res) => {
     .then((data) => res.json(data)) // promesa para responder con esos datos
     .catch((error) => res.json({ message: error })); // recoger si hay algun error
 });
-// Actualizar un producto
+// Actualizar un  Registro 
 router.put("/user/:id", (req, res) => {
   const { id } = req.params; // obtenemos el id desde los parametros
-  const { nombre, apellido, Correo, estado_usuaio, estado , rol} = req.body; //Extraer los datos que queremos actualizar del producto
+  const { nombre, apellido, Correo, estado_usuaio, estado , rol} = req.body; //Extraer los datos que queremos actualizar del rol
   registrarSchema // para get solo usamos el esquema
     .updateOne(
       { _id: id },
