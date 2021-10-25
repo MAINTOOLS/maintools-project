@@ -75,19 +75,33 @@ mongoose
 app.post('/login', async (req,res) =>{
   let userid = await verify(req.body.token);
   if(userid){
-    const dataGoogle = {
-      nombre: req.body.nombres,
-      apellido: req.body.apellidos,
-      Correo: req.body.email,
-      estado_usuaio: "pendiente",
-      estado: "activo",
-      rol: "",
-    };
-    axios.post('http://localhost:4000/api/user',dataGoogle)
+    var numeroRegistros
+      await registrarSchema.collection.find({Correo:req.body.email}).count()
+      .then(function(numItems) {
+        console.log(numItems); // Use this to debug
+        numeroRegistros = numItems
+          
+    }).catch(err => console.log(err))
+    if(numeroRegistros != 0){
+      console.log("ya existe")
+    }else{
+      console.log("Creando...")
+      const dataGoogle = {
+        nombre: req.body.nombres,
+        apellido: req.body.apellidos,
+        Correo: req.body.email,
+        estado_usuaio: "pendiente",
+        estado: "activo",
+        rol: "",
+      };
+      axios.post('http://localhost:4000/api/user',dataGoogle)
+    }
+ 
+  
+    
     res.send({
       succes: true,
       message: "El token es valido"
-      
     })
   }else{
     res.status = 400;
