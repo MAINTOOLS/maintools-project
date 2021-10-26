@@ -17,6 +17,26 @@ router.get("/user/rol", (req, res) => {
     .find() // para recuperar los productos
     .then((data) => res.json(data)) // promesa para responder con esos datos
     .catch((error) => res.json({ message: error })); // recoger si hay algun error
-}); 
+});  
+router.get("/user/rol/:id", (req, res) => {
+  const { id } = req.params; // obtenemos el id desde los parametros
+  registrarRolSchema // para get solo usamos el esquema
+    .findById(id) // para encontrar el id
+    .then((data) => res.json(data)) // promesa para responder con esos datos
+    .catch((error) => res.json({ message: error })); // recoger si hay algun error
+});
+
+// Actualizar un rol 
+router.put("/user/rol/:id",(req,res) =>{
+  const {id} = req.params;
+  const{nombreRol, estado} = req.body;
+  registrarRolSchema
+  .updateOne(
+    {_id : id},
+    {$set:{nombreRol,estado}}
+  )// para actualizar 
+  .then((data) => res.json(data)) // promesa para responder con esos datos
+  .catch((error) => res.json({ message: error })); // recoger si hay algun error
+});
 
 module.exports = router;
