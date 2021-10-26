@@ -16,7 +16,8 @@ require("dotenv").config(); // ruta para conectarnos a la base de datos mongodb 
 const productRouter = require("./routes/producto_route") //requerimos el archivo donde esta la ruta
 const registrarUsuario_route = require("./routes/regitrarUsuario_route")
 const registrar_rol = require("./routes/registrarRol_usuario")
-const ventaRoutes = require("./routes/venta_route")
+const ventaRoutes = require("./routes/venta_route");
+const { response } = require('express');
 // Variable de entrono para la conexion
 const mongo_uri = "MONGODB_URI=mongodb+srv://Maintools:maintools@registroventas.jih7d.mongodb.net/GestionVentas?retryWrites=true&w=majority";
 //middleware
@@ -72,7 +73,10 @@ mongoose
     console.log(error);
   }
 }
+
 app.post('/login', async (req,res) =>{
+  let dataEnviada 
+  let datosGoogle
   let userid = await verify(req.body.token);
   if(userid){
     var numeroRegistros
@@ -84,24 +88,36 @@ app.post('/login', async (req,res) =>{
     }).catch(err => console.log(err))
     if(numeroRegistros != 0){
       console.log("ya existe")
+      async function extraerDatos(){
+        const url=`http://localhost:4000/api/user/consultar/${req.body.email}`
+        let response = await axios.get(url)
+        return response.data
+      }
+      //extraerDatos().then((data) => console.log(data));
+      datosGoogle = await extraerDatos()
+      console.log(datosGoogle)
+    
+
     }else{
       console.log("Creando...")
-      const dataGoogle = {
+      dataEnviada = {
         nombre: req.body.nombres,
         apellido: req.body.apellidos,
         Correo: req.body.email,
         estado_usuaio: "pendiente",
         estado: "activo",
-        rol: "",
+        rol: ""
       };
-      axios.post('http://localhost:4000/api/user',dataGoogle)
-    }
- 
-  
+      
+      axios.post('http://localhost:4000/api/user',dataEnviada)
+
+
+    };
     
     res.send({
       succes: true,
-      message: "El token es valido"
+      message: "El token es valido",
+      usuario: datosGoogle
     })
   }else{
     res.status = 400;
@@ -112,4 +128,28 @@ app.post('/login', async (req,res) =>{
 
   }
 }) 
+
+app.get('/usuarios',async(req,res)=>{
+  if(req.headers.token){
+    let userid = await verify(req.headers.token);
+    if(userid){
+      router.get("/user", (req, res) => {
+        // para get solo usamos el esquema
+        registrarSchema
+          .find() // para recuperar los productos
+          .then((data) => res.json(data)) // promesa para responder con esos datos
+          .catch((error) => res.json({ message: error })); // recoger si hay algun error
+      });
+    }
+
+  }
+  res.status = 400;
+
+    res.send({
+      error: true,
+      message: "El usuario no esta autorizado no token"
+    })
+  
+})
+
 app.listen(port, () => console.log("server listning on port", port)); // que el servidor escucher en un pyerto especifico

@@ -4,16 +4,33 @@ import axios from "axios";
 function Login() {
     function responseGoogle(response){
         if  (response && response.tokenId) {
-            console.log(response)
-            const infoGoogle = {
-                token: response.tokenId,
-                email: response.profileObj.email,
-                nombres: response.profileObj.givenName,
-                apellidos: response.profileObj.familyName
-            }
-            axios.post('http://localhost:4000/login',infoGoogle).then((respuestaServidor)=>{
-                console.log(infoGoogle);
-            })
+            fetch('http://localhost:4000/login',{
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({
+                    token: response.tokenId,
+                    email: response.profileObj.email,
+                    nombres: response.profileObj.givenName,
+                    apellidos: response.profileObj.familyName
+                })
+            }).catch((err)=>console.error(err))
+            .then((respuesta)=>respuesta.json())
+            .then((respuestaServidor)=>{
+                
+                localStorage.setItem('token', response.tokenId);
+                localStorage.setItem('usuario',(respuestaServidor.usuario[0].estado_usuaio));
+                console.log(respuestaServidor.usuario[0].estado_usuaio);
+                window.location.href = "/RegistrarUsuario"
+            });
+            
+                //console.log(dataGoogle);
+                //localStorage.setItem('token', response.tokenId);
+                //localStorage.setItem('usuario',JSON.stringify(dataGoogle));
+                //window.location.href = "/RegistrarUsuario"
+
+            
         }
     }
     return(
