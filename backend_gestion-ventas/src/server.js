@@ -16,7 +16,8 @@ require("dotenv").config(); // ruta para conectarnos a la base de datos mongodb 
 const productRouter = require("./routes/producto_route") //requerimos el archivo donde esta la ruta
 const registrarUsuario_route = require("./routes/regitrarUsuario_route")
 const registrar_rol = require("./routes/registrarRol_usuario")
-const ventaRoutes = require("./routes/venta_route")
+const ventaRoutes = require("./routes/venta_route");
+const { response } = require('express');
 // Variable de entrono para la conexion
 const mongo_uri = "MONGODB_URI=mongodb+srv://Maintools:maintools@registroventas.jih7d.mongodb.net/GestionVentas?retryWrites=true&w=majority";
 //middleware
@@ -72,22 +73,51 @@ mongoose
     console.log(error);
   }
 }
+
 app.post('/login', async (req,res) =>{
+  let dataEnviada 
+  let datosGoogle
   let userid = await verify(req.body.token);
   if(userid){
-    const dataGoogle = {
-      nombre: req.body.nombres,
-      apellido: req.body.apellidos,
-      Correo: req.body.email,
-      estado_usuaio: "pendiente",
-      estado: "activo",
-      rol: "",
+    var numeroRegistros
+      await registrarSchema.collection.find({Correo:req.body.email}).count()
+      .then(function(numItems) {
+        console.log(numItems); // Use this to debug
+        numeroRegistros = numItems
+          
+    }).catch(err => console.log(err))
+    if(numeroRegistros != 0){
+      console.log("ya existe")
+      async function extraerDatos(){
+        const url=`http://localhost:4000/api/user/consultar/${req.body.email}`
+        let response = await axios.get(url)
+        return response.data
+      }
+      //extraerDatos().then((data) => console.log(data));
+      datosGoogle = await extraerDatos()
+      console.log(datosGoogle)
+    
+
+    }else{
+      console.log("Creando...")
+      dataEnviada = {
+        nombre: req.body.nombres,
+        apellido: req.body.apellidos,
+        Correo: req.body.email,
+        estado_usuaio: "pendiente",
+        estado: "activo",
+        rol: ""
+      };
+      
+      axios.post('http://localhost:4000/api/user',dataEnviada)
+
+
     };
-    axios.post('http://localhost:4000/api/user',dataGoogle)
+    
     res.send({
       succes: true,
-      message: "El token es valido"
-      
+      message: "El token es valido",
+      usuario: datosGoogle
     })
   }else{
     res.status = 400;
@@ -98,4 +128,7 @@ app.post('/login', async (req,res) =>{
 
   }
 }) 
+
+
+
 app.listen(port, () => console.log("server listning on port", port)); // que el servidor escucher en un pyerto especifico

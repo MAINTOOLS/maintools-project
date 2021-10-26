@@ -94,7 +94,7 @@ const cambioFecha = startDate => {
   
     return(
       
-        <body> 
+        <div> 
             <Cabecera />
             <div className = "mb-5">
               <h2>Registro de ventas</h2>
@@ -148,11 +148,11 @@ const cambioFecha = startDate => {
         <div className = "mt-3">
         <button type="button" id="venta" onClick = {handleClick} disabled={isDisabled}>Registrar venta</button>
         
-        
+        </div>
         </div>
   </div>
 
-    </body>
+    
         
         
     )

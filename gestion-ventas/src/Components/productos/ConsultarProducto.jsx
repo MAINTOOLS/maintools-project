@@ -8,6 +8,20 @@ const ConsultarProducto = () => {
   const [textBuscar, setTextBuscar] = useState("");
   const [consultProductoBackup, setConsultProductoBackup] = useState({});
 
+  //si es administrador o vendedor ocultaro mostrar usando {rol&&< .../>}
+  var rol = true;
+    let[loggedUser, setLoggedUser] = useState(
+        localStorage.getItem('usuario') ?
+        localStorage.getItem('usuario') :
+        null
+      )
+
+if(loggedUser === "Administrador"){
+        rol = true
+    }else if (loggedUser === "Vendedor"){
+        rol = false
+    }
+   // 
   useEffect(() => {
     ConsultarProducto();
   }, []);

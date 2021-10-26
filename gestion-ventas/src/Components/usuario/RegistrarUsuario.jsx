@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Cabecera from "../cabecera/Cabecera";
+import { Redirect } from "react-router-dom";
 import {
   Form,
   Col,
@@ -9,6 +10,7 @@ import {
   Container,
   Card,
 } from "react-bootstrap";
+import axios from "axios";
 let resultado = "";
 
 const RegistrarUsuario = () => {
@@ -142,9 +144,34 @@ const RegistrarUsuario = () => {
   function eliminar() {
     alert("eliminar");
   }
-
+  let[loggedUser, setLoggedUser] = useState(
+    localStorage.getItem('usuario') ?
+    localStorage.getItem('usuario') :
+    null
+  )
+  let[token,setToken] = useState(true);
+  useEffect(()=>{
+    const tokenStorage = localStorage.getItem('token')
+    if(tokenStorage && loggedUser === "Administrador"){
+      fetch("http://localhost:4000/usuarios",{
+        headers: {
+          "Content-Type":"application/json",
+          token: tokenStorage
+        }
+      }).catch((err)=>console.error(err))
+      .then((response)=>response.json())
+      .then((usuarios)=>{
+        console.log(usuarios);
+      }) 
+    }
+     else{
+      alert('Usted no esta autorizado');
+      setToken(false);
+    }
+  },[])
   return (
     <div>
+      {!token && <Redirect to = '/'/>}
       <Cabecera />
       <Container>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>

@@ -1,15 +1,30 @@
 import { Link } from "react-router-dom";
 import { Navbar, Nav, NavDropdown, Container } from "react-bootstrap";
+import React, {useState} from "react"
 const Cabecera = () => {
+  
+  var rol = true;
+    let[loggedUser, setLoggedUser] = useState(
+        localStorage.getItem('usuario') ?
+        localStorage.getItem('usuario') :
+        null
+      )
+
+if(loggedUser === "Administrador"){
+        rol = true
+    }else if (loggedUser === "Vendedor"){
+        rol = false
+    }
+
   return (
     <div>
       <Navbar className="mb-5" bg="dark" variant="dark" expand="lg">
         <Container>
-          <Navbar.Brand href="#home">Gestion de ventas</Navbar.Brand>
+          <Navbar.Brand href="/inicio">Gestion de ventas</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <NavDropdown title="Usuario" id="basic-nav-dropdown">
+              {rol &&<NavDropdown title="Usuario" id="basic-nav-dropdown">
                 <Link className="dropdown-item" to="/RegistrarUsuario">
                   Registrar usuario
                 </Link>
@@ -19,7 +34,7 @@ const Cabecera = () => {
                 <Link className="dropdown-item" to="/AgregarRol">
                   Registrar Rol
                 </Link>
-              </NavDropdown>
+              </NavDropdown>}
               <NavDropdown title="Producto" id="basic-nav-dropdown">
                 <Link className="dropdown-item" to="/RegistrarProducto">
                   Registrar producto

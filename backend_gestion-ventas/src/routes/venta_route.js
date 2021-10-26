@@ -55,4 +55,35 @@ router.delete('/ventas/:id',(req,res) => {
     .catch((error)=>res.json({message:error}));
 });
 
+
+//obtener cantidad de documentos
+router.get('/ventas/cantidad',async (req,res) => {
+    //res.send("Crear venta");
+    var numeroVentas
+    await ventaSchema.collection.countDocuments()
+    .then(function(numItems) {
+      numeroVentas = numItems
+        
+  }).catch(err => console.log(err))
+  res.send({
+    NumVentas: numeroVentas
+  })
+});
+
+router.route('/ventas/cantidades').get(function(req,res){
+
+    ventaSchema.count( {}, function(err, result){
+
+        if(err){
+            res.send(err)
+        }
+        else{
+            res.json(result)
+        }
+
+   })
+
+
+})
+
 module.exports = router;

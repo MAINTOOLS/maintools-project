@@ -18,6 +18,24 @@ router.get("/user", (req, res) => {
     .then((data) => res.json(data)) // promesa para responder con esos datos
     .catch((error) => res.json({ message: error })); // recoger si hay algun error
 });
+
+//Consultar un usuario usando el correo electronico
+router.get("/user/consultar/:Correo", (req, res) => {
+  const {Correo} = req.params
+  registrarSchema    
+    .find({Correo: Correo}) // para recuperar los productos
+    .then((data) => res.json(data)) // promesa para responder con esos datos
+    .catch((error) => res.json({ message: error })); // recoger si hay algun error
+});
+
+//testeo countDocument
+router.get("/user/consultar/cuenta", (req, res) => {
+  console.log("hola")
+  registrarSchema.count({Correo:"attilathehun96@gmail.com"})
+  .then((data) => res.json(data))
+  
+});
+
 // Consultar solo con el indice
 router.get("/user/:id", (req, res) => {
   const { id } = req.params; // obtenemos el id desde los parametros

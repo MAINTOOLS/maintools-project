@@ -7,6 +7,7 @@ import "./Components/ventas/RegistrarVentas";
 import RegistrarVenta from "./Components/ventas/RegistrarVentas";
 import ConsultarVenta from "./Components/ventas/ConsultarVentas";
 import Login from "./Components/login/Login";
+import PaginaInicio from "./Components/login/PaginaInicio";
 import RegistrarUsuario from "./Components/usuario/RegistrarUsuario";
 import RegistrarRol from "./Components/usuario/RegistrarRol"; 
 import AgregarRol from "./Components/usuario/AgregarRol";
@@ -29,10 +30,12 @@ function App() {
       <Route exact path ="/AgregarRol" component={AgregarRol} />
       <Route exact path="/RegistrarProducto" component={RegistrarProducto} />
       <Route exact path="/ConsultarProducto" component={ConsultarProducto} />
+      <Route exact path="/inicio" component={PaginaInicio} />
       <Piepagina/>
 
       
     </div>
+    
   );
 }
 

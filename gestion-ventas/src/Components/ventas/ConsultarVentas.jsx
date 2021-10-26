@@ -12,7 +12,18 @@ var idActual;
 
 
 function RegistroVenta(){
+  var rol = true;
+    let[loggedUser, setLoggedUser] = useState(
+        localStorage.getItem('usuario') ?
+        localStorage.getItem('usuario') :
+        null
+      )
 
+if(loggedUser === "Administrador"){
+        rol = true
+    }else if (loggedUser === "Vendedor"){
+        rol = false
+    }
 
   const[openPopup, setOpenPopup] = useState(false);
   const[busqueda,setBusqueda] = useState('');
@@ -129,7 +140,7 @@ function RegistroVenta(){
             <th>Tipo de identificación</th>
             <th>Número de identificación</th>
             <th>Vendedor</th>
-            <th>Opciones</th>
+            {rol&&<th>Opciones</th>}
           </tr>
         </thead>
         <tbody>
@@ -141,15 +152,15 @@ function RegistroVenta(){
         }
       }).map(note =>
               
-      <tr>
+      <tr key={note._id}>
         <td>{note.fecha}</td>
         <td>{note.idVenta}</td>
         <td>{note.nombreCliente}</td>
         <td>{note.tipoIdentificacion}</td>
         <td>{note.numeroIdentificacion}</td>
         <td>{note.nombreVendedor}</td>
-        <td><button onClick = {()=>id(note._id, note.fecha, note.idVenta, note.nombreCliente, note.tipoIdentificacion, note.numeroIdentificacion, note.nombreVendedor)} >Editar</button>&nbsp;
-        <button  onClick = {()=>eliminarClick(note._id)}>Eliminar</button></td>
+        {rol &&<td><button onClick = {()=>id(note._id, note.fecha, note.idVenta, note.nombreCliente, note.tipoIdentificacion, note.numeroIdentificacion, note.nombreVendedor)} >Editar</button>&nbsp;
+        <button  onClick = {()=>eliminarClick(note._id)}>Eliminar</button></td>}
       </tr>
       
         )}
