@@ -141,7 +141,7 @@ function RegistroVenta(){
         }
       }).map(note =>
               
-      <tr>
+      <tr key={note._id}>
         <td>{note.fecha}</td>
         <td>{note.idVenta}</td>
         <td>{note.nombreCliente}</td>

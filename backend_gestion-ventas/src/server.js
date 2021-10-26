@@ -129,27 +129,6 @@ app.post('/login', async (req,res) =>{
   }
 }) 
 
-app.get('/usuarios',async(req,res)=>{
-  if(req.headers.token){
-    let userid = await verify(req.headers.token);
-    if(userid){
-      router.get("/user", (req, res) => {
-        // para get solo usamos el esquema
-        registrarSchema
-          .find() // para recuperar los productos
-          .then((data) => res.json(data)) // promesa para responder con esos datos
-          .catch((error) => res.json({ message: error })); // recoger si hay algun error
-      });
-    }
 
-  }
-  res.status = 400;
-
-    res.send({
-      error: true,
-      message: "El usuario no esta autorizado no token"
-    })
-  
-})
 
 app.listen(port, () => console.log("server listning on port", port)); // que el servidor escucher en un pyerto especifico
