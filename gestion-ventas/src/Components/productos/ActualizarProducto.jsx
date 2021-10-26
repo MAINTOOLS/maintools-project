@@ -10,6 +10,18 @@ import {
 } from "react-bootstrap";
 
 const ActualizarProducto = (props) => {
+  var rol = true;
+    let[loggedUser, setLoggedUser] = useState(
+        localStorage.getItem('usuario') ?
+        localStorage.getItem('usuario') :
+        null
+      )
+
+if(loggedUser === "Administrador"){
+        rol = true
+    }else if (loggedUser === "Vendedor"){
+        rol = false
+    }
   const { update, ConsultarProducto } = props;
   const [loader, setLoader] = useState(false)
   const [formValue, setFormValue] = useState({
@@ -92,7 +104,7 @@ const ActualizarProducto = (props) => {
 
   return (
     <div>
-      <Container> 
+      {rol&&<Container> 
         <Form className="mb-5 form" onSubmit={handleSubmit}>
           <Card
             className="shadow p-3 mb-5 bg-body rounded"
@@ -171,7 +183,7 @@ const ActualizarProducto = (props) => {
             </Row>
           </Card>
         </Form>
-      </Container>
+      </Container>}
     </div>
   );
 };
