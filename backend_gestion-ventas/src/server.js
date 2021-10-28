@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 
 //mongobd connection
 mongoose
-  .connect(procces.env.DB_URL)
+  .connect(process.env.DB_URL)
   .then(() => console.log("Database connect"))
   .catch((error) => console.error(error))
 
