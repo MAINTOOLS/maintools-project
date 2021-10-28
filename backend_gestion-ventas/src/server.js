@@ -11,7 +11,7 @@ const registrarSchema = require("./models/registrar_usuaio");
 const router = express.Router();
 const app = express(); // ejecutamos express (express() retorna el objeto de la aplicación)
 const port = process.env.PORT || 4000; // process.env.PORT toma el puerto del hosting cuando ya este en producción
-require("dotenv").config(); // ruta para conectarnos a la base de datos mongodb atlas
+require("dotenv").config({ path: 'variables.env'}); // ruta para conectarnos a la base de datos mongodb atlas
 
 const productRouter = require("./routes/producto_route") //requerimos el archivo donde esta la ruta
 const registrarUsuario_route = require("./routes/regitrarUsuario_route")
@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 
 //mongobd connection
 mongoose
-  .connect(mongo_uri)
+  .connect(procces.env.DB_URL)
   .then(() => console.log("Database connect"))
   .catch((error) => console.error(error))
 
