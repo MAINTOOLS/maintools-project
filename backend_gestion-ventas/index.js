@@ -34,10 +34,10 @@ app.get("/", (req, res) => {
 });
 
 //mongobd connection
-mongoose
-  .connect(process.env.DB_URL)
-  .then(() => console.log("Database connect"))
-  .catch((error) => console.error(error))
+// mongoose
+//   .connect(process.env.DB_URL)
+//   .then(() => console.log("Database connect"))
+//   .catch((error) => console.error(error))
 
  //Verificar token google
 //  async function verify(token){
