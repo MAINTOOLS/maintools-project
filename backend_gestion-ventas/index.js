@@ -40,94 +40,94 @@ mongoose
   .catch((error) => console.error(error))
 
  //Verificar token google
- async function verify(token){
-   try {
-        const ticket = await client.verifyIdToken({
-          idToken: token,
-          audience: CLIENT_ID
-        });
-        const payload = ticket.getPayload();
-        const userid = payload['sub'];
-        return userid;
-   }catch(error){
-      console.error(error);
-      return null;
-   }
- } 
- async function registrar(dataGoogle) {
-  try {
-    let config = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dataGoogle),
-    };
-    let res = await fetch("http://localhost:4000/api/user", config);
-    let json = await res.json();
-    console.log(json);
-    ConsultarUsuario();
-    alert("Registro exitoso");
-  } catch (error) {
-    console.log(error);
-  }
-}
+//  async function verify(token){
+//    try {
+//         const ticket = await client.verifyIdToken({
+//           idToken: token,
+//           audience: CLIENT_ID
+//         });
+//         const payload = ticket.getPayload();
+//         const userid = payload['sub'];
+//         return userid;
+//    }catch(error){
+//       console.error(error);
+//       return null;
+//    }
+//  } 
+//  async function registrar(dataGoogle) {
+//   try {
+//     let config = {
+//       method: "POST",
+//       headers: {
+//         Accept: "application/json",
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(dataGoogle),
+//     };
+//     let res = await fetch("http://localhost:4000/api/user", config);
+//     let json = await res.json();
+//     console.log(json);
+//     ConsultarUsuario();
+//     alert("Registro exitoso");
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
-app.post('/login', async (req,res) =>{
-  let dataEnviada 
-  let datosGoogle
-  let userid = await verify(req.body.token);
-  if(userid){
-    var numeroRegistros
-      await registrarSchema.collection.find({Correo:req.body.email}).count()
-      .then(function(numItems) {
-        console.log(numItems); // Use this to debug
-        numeroRegistros = numItems
+// app.post('/login', async (req,res) =>{
+//   let dataEnviada 
+//   let datosGoogle
+//   let userid = await verify(req.body.token);
+//   if(userid){
+//     var numeroRegistros
+//       await registrarSchema.collection.find({Correo:req.body.email}).count()
+//       .then(function(numItems) {
+//         console.log(numItems); // Use this to debug
+//         numeroRegistros = numItems
           
-    }).catch(err => console.log(err))
-    if(numeroRegistros != 0){
-      console.log("ya existe")
-      async function extraerDatos(){
-        const url=`http://localhost:4000/api/user/consultar/${req.body.email}`
-        let response = await axios.get(url)
-        return response.data
-      }
-      //extraerDatos().then((data) => console.log(data));
-      datosGoogle = await extraerDatos()
-      console.log(datosGoogle)
+//     }).catch(err => console.log(err))
+//     if(numeroRegistros != 0){
+//       console.log("ya existe")
+//       async function extraerDatos(){
+//         const url=`http://localhost:4000/api/user/consultar/${req.body.email}`
+//         let response = await axios.get(url)
+//         return response.data
+//       }
+//       //extraerDatos().then((data) => console.log(data));
+//       datosGoogle = await extraerDatos()
+//       console.log(datosGoogle)
     
 
-    }else{
-      console.log("Creando...")
-      dataEnviada = {
-        nombre: req.body.nombres,
-        apellido: req.body.apellidos,
-        Correo: req.body.email,
-        estado_usuaio: "pendiente",
-        estado: "activo",
-        rol: ""
-      };
+//     }else{
+//       console.log("Creando...")
+//       dataEnviada = {
+//         nombre: req.body.nombres,
+//         apellido: req.body.apellidos,
+//         Correo: req.body.email,
+//         estado_usuaio: "pendiente",
+//         estado: "activo",
+//         rol: ""
+//       };
       
-      axios.post('http://localhost:4000/api/user',dataEnviada)
+//       axios.post('http://localhost:4000/api/user',dataEnviada)
 
 
-    };
+//     };
     
-    res.send({
-      succes: true,
-      message: "El token es valido",
-      usuario: datosGoogle
-    })
-  }else{
-    res.status = 400;
-    res.send({
-      error: true,
-      message: "No se pudo validar el usuario"
-    })
+//     res.send({
+//       succes: true,
+//       message: "El token es valido",
+//       usuario: datosGoogle
+//     })
+//   }else{
+//     res.status = 400;
+//     res.send({
+//       error: true,
+//       message: "No se pudo validar el usuario"
+//     })
 
-  }
-}) 
+//   }
+// }) 
 
 
 
