@@ -8,7 +8,7 @@
     "devs": "nodemon src/server.js"
   },
   "engines": {
-    "node": "12.15.0",
+    "node": "14.x",
     "npm": "8.1.1"
   },
   "keywords": [],
