@@ -29,9 +29,9 @@ app.use('/api', registrar_rol)
 app.use('/api', registrarUsuario_route)
 app.use('/api',ventaRoutes)
 //routes
-// app.get("/", (req, res) => {
-//   res.send("welcome to my api");
-// });
+app.get("/", (req, res) => {
+  res.send("welcome to my api");
+});
 
 //mongobd connection
 // mongoose
