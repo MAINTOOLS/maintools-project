@@ -1,3 +1,5 @@
 /node_modules
 /requets.http
+npm-debug.log
+.DS_Store
 /*.env
